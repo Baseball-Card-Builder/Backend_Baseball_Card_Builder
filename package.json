@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-migration": "npx knex --knexfile=./db/knexfile.js migrate:make",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
     "seed": "npx knex seed:run --knexfile db/knexfile.js"
   },
@@ -20,11 +20,14 @@
   },
   "homepage": "https://github.com/Baseball-Card-Builder/Backend_Baseball_Card_Builder#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^2.4.2",
     "nodemon": "^2.0.21",
-    "pg": "^8.10.0"
+    "pg": "^8.10.0",
+    "postgres": "^3.3.4"
   }
 }

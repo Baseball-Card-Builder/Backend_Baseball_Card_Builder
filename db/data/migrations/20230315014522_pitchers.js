@@ -5,7 +5,8 @@
 exports.up = function(knex) {
     return knex.schema.createTable("pitchers", function (table) {
         table.increments("id").primary();
-        table.foreign("pitcher_id").references("users.id");
+        table.integer('user_id').notNullable();
+        table.foreign("user_id").references("users.id");
         table.string("first_name", 32).notNullable();
         table.string("last_name", 32).notNullable();
         table.string("W-L", 32).notNullable();

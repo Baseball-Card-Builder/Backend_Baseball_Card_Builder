@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "create-migration": "npx knex --knexfile=./db/knexfile.js migrate:make",
+    "create-seed": "npx knex --knexfile=./db/knexfile.js seed:make",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
     "seed": "npx knex seed:run --knexfile db/knexfile.js"
   },

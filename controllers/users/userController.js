@@ -36,12 +36,48 @@ const signup = async (req, res) => {
       email: userArray[0].email,
     };
 
-    return res.status(201).json(loginObject);
+    return res.status(201).send(json(loginObject));
   } catch (error) {
-    console.log(error);
+    return error;
+  }
+};
+/* */
+const login = async(req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!(email && password)) {
+      res.status(400).send("All input is required");
+    }
+
+    const userArray = await knex
+      .select(["id", "username", "email", "password"])
+      .from ("users")
+      .where({ email });
+    
+      if (!userArray.length) {
+        return res.status(404).send("Email does not exist");
+      }
+
+      const isValidPassword = await bcrypt.compare(password, userArray[0].password);
+
+      if(!isValidPassword) return res.status(401).send("Incorrect password")
+
+      const token = auth.createToken(userArray[0].id);
+     
+      const loginObject = {
+        token,
+        username: userArray[0].username,
+        email: userArray[0].email,
+      }
+
+      return res.status(200).json(loginObject);
+  } catch (error) {
+    return error;
   }
 };
 
 module.exports = {
   signup,
+  login
 };

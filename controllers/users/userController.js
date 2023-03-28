@@ -3,7 +3,7 @@ const knex = require("../../db/knex");
 const auth = require("../../middleware/auth");
 
 const saltRounds = 10;
-
+/* respond to a post request to API_URL/user/signup */
 const signup = async (req, res) => {
   try {
     const { username, password, email } = req.body;
@@ -12,11 +12,11 @@ const signup = async (req, res) => {
       res.status(400).send("All input is required");
     }
 
-    // const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
-    // if (existingUser) {
-    //     return res.status(409).send("User already exists. Please log in.")
-    // }
+    if (existingUser) {
+        return res.status(409).send("User already exists. Please log in.")
+    }
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -29,7 +29,6 @@ const signup = async (req, res) => {
       });
 
     const token = auth.createToken(userArray[0].id);
-    console.log(token);
 
     const loginObject = {
       token,
